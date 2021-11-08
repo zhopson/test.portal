@@ -9,6 +9,7 @@ import VueRouter from 'vue-router';
 
 import Home from './pages/Home.vue';
 import About from './pages/About.vue';
+import TestPage from './pages/TestPage.vue';
 
 Vue.use(VueRouter);
 
@@ -20,6 +21,11 @@ const router = new VueRouter({
             path: '/',
             name: 'home',
             component: Home
+        },
+        {
+            path: '/testpage',
+            name: 'testpage',
+            component: TestPage
         },
         {
             path: '/about',
