@@ -31,6 +31,7 @@
     </style>
 
     <link href="{{ asset('css/sidebars.css') }}" rel="stylesheet">
+<!--    <link href="{{ asset('css/headers.css') }}" rel="stylesheet">-->
     
 </head>
 
