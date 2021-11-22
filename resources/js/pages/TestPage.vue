@@ -1,261 +1,173 @@
 <template>
 
-<!--.card {
-overflow-y: scroll;
-white-space: nowrap;
-max-height: 350px;
-padding: 1rem;
-}-->
-    
-    <div class="container-fluid mt-3 mb-4" style="overflow-y:scroll; max-height: 90vh; padding: 1rem;">
+    <!--.card {
+    overflow-y: scroll;
+    white-space: nowrap;
+    max-height: 350px;
+    padding: 1rem;
+    }-->
+
+    <div class="container-fluid mt-3 mb-4">
+<!--        <example-component></example-component>-->
         <div class="row mt-4">
 
             <div class="col-md-11">
-                <div class="card">
-                    <div class="card-header">Выберите категорию</div>
+                
+                <div v-if="error" class="alert alert-danger" role="alert">
+                    <p>A simple danger alert—check it out!</p>
+                    <p>{{ error }}</p>
+                </div>
 
-                    <div class="card-body">
-                        <!--                          <button type="button" class="btn btn-link">Категория1</button>
-                                                  <button type="button" class="btn btn-link">Категория2</button>
-                                                  <button type="button" class="btn btn-link">Категория3</button>
-                                                  <button type="button" class="btn btn-link">Категория4</button>
-                                                  <button type="button" class="btn btn-link">Категория5</button>
-                                                  <button type="button" class="btn btn-link">Категория6</button>
-                                                  <button type="button" class="btn btn-link">Категория7</button>
-                                                  <button type="button" class="btn btn-link">Категория8</button>
-                                                  <button type="button" class="btn btn-link">Категория9</button>
-                                                  <button type="button" class="btn btn-link">Категория11</button>
-                                                  <button type="button" class="btn btn-link">Категория10</button>
-                                                  <button type="button" class="btn btn-link">Категория12</button>
-                                                  <button type="button" class="btn btn-link">Категория13</button>
-                                                  <button type="button" class="btn btn-link">Категория14</button>
-                                                  <button type="button" class="btn btn-link">Категория15</button>
-                                                  <button type="button" class="btn btn-link">Категория16</button>
-                                                  <button type="button" class="btn btn-link">Категория17</button>
-                                                  <button type="button" class="btn btn-link">Категория18</button>
-                                                  <button type="button" class="btn btn-link">Категория19</button>
-                                                  <button type="button" class="btn btn-link">Категория20</button>
-                                                  <button type="button" class="btn btn-link">Категория21</button>
-                                                  <button type="button" class="btn btn-link">Категория22</button>
-                                                  <button type="button" class="btn btn-link">Категория23</button>
-                                                  <button type="button" class="btn btn-link">Категория24</button>
-                                                  <button type="button" class="btn btn-link">Категория25</button>-->
-                        <div class="row row-cols-1 row-cols-md-6 g-4">
-                            <div class="col-sm d-flex">
-                                <div class="card card-body flex-fill">
-                                    <button type="button" class="btn btn-link">Категория1</button>
-                                </div>
-                            </div>
-                            <div class="col-sm d-flex">
-                                <div class="card card-body flex-fill">
-                                    <button type="button" class="btn btn-link">Категория2</button>
-                                </div>
-                            </div>
-                            <div class="col-sm d-flex">
-                                <div class="card card-body flex-fill">
-                                    <button type="button" class="btn btn-link">Категория3</button>
-                                </div>
-                            </div>
-                            <div class="col-sm d-flex">
-                                <div class="card card-body flex-fill">
-                                    <button type="button" class="btn btn-link">Категория4</button>
-                                </div>
-                            </div>
-                            <div class="col-sm d-flex">
-                                <div class="card card-body flex-fill">
-                                    <button type="button" class="btn btn-link">Категория5</button>
-                                </div>
-                            </div>
-                            <div class="col-sm d-flex">
-                                <div class="card card-body flex-fill">
-                                    <button type="button" class="btn btn-link">Категория6</button>
-                                </div>
-                            </div>
-                            <div class="col-sm d-flex">
-                                <div class="card card-body flex-fill">
-                                    <button type="button" class="btn btn-link">Категория7</button>
-                                </div>
-                            </div>
-                            <div class="col-sm d-flex">
-                                <div class="card card-body flex-fill">
-                                    <button type="button" class="btn btn-link">Категория8</button>
-                                </div>
-                            </div>
-                            <div class="col-sm d-flex">
-                                <div class="card card-body flex-fill">
-                                    <button type="button" class="btn btn-link">Категория9</button>
-                                </div>
-                            </div>
-                            <div class="col-sm d-flex">
-                                <div class="card card-body flex-fill">
-                                    <button type="button" class="btn btn-link">Категория10</button>
-                                </div>
-                            </div>
-                            <div class="col-sm d-flex">
-                                <div class="card card-body flex-fill">
-                                    <button type="button" class="btn btn-link">Категория11</button>
-                                </div>
-                            </div>
-                            <div class="col-sm d-flex">
-                                <div class="card card-body flex-fill">
-                                    <button type="button" class="btn btn-link">Категория12</button>
-                                </div>
-                            </div>
-                            <div class="col-sm d-flex">
-                                <div class="card card-body flex-fill">
-                                    <button type="button" class="btn btn-link">Категория13</button>
-                                </div>
-                            </div>
-                            <div class="col-sm d-flex">
-                                <div class="card card-body flex-fill">
-                                    <button type="button" class="btn btn-link">Категория14</button>
-                                </div>
-                            </div>
-                            <div class="col-sm d-flex">
-                                <div class="card card-body flex-fill">
-                                    <button type="button" class="btn btn-link">Категория15</button>
-                                </div>
-                            </div>
-                            <div class="col-sm d-flex">
-                                <div class="card card-body flex-fill">
-                                    <button type="button" class="btn btn-link">Категория16</button>
-                                </div>
-                            </div>
-                            <div class="col-sm d-flex">
-                                <div class="card card-body flex-fill">
-                                    <button type="button" class="btn btn-link">Категория17</button>
-                                </div>
-                            </div>
-                            <div class="col-sm d-flex">
-                                <div class="card card-body flex-fill">
-                                    <button type="button" class="btn btn-link">Категория18</button>
-                                </div>
-                            </div>
-                            <div class="col-sm d-flex">
-                                <div class="card card-body flex-fill">
-                                    <button type="button" class="btn btn-link">Категория19</button>
-                                </div>
-                            </div>
-                            <div class="col-sm d-flex">
-                                <div class="card card-body flex-fill">
-                                    <button type="button" class="btn btn-link">Категория20</button>
-                                </div>
-                            </div>
-                            <div class="col-sm d-flex">
-                                <div class="card card-body flex-fill">
-                                    <button type="button" class="btn btn-link">Категория21</button>
-                                </div>
-                            </div>
+                <div class="loading" v-if="loading">Loading...</div>                
+                
+                <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                    <h1 class="h2">{{ cat_title }}</h1>                
+                </div>
+
+                <!--                <div class="card">
+                                    <div class="card-header">Выберите категорию</div>
+                
+                                    <div class="card-body">
+                                    </div>
+                                </div>-->
+
+                <div class="d-flex justify-content-end flex-wrap flex-md-nowrap align-items-center pt-3 pb-1 mb-3">
+                    <button type="button" class="btn btn-info mb-4 ">Новая категория</button>
+                </div>                        
+                
+                <cats-component v-bind:cats="cats" @call-get-cats="handleGetCats"></cats-component>
+                
+<!--                <div class="row row-cols-1 row-cols-md-6 g-4" v-if="cats">
+                    <div class="col-sm d-flex" v-for="{id, name } in cats">
+                        <div class="card card-body flex-fill">
+                            <button type="button" class="btn btn-link" @click.prevent="onLoadCats(id)">{{ name }}</button>
+                        </div>
+                    </div>     -->
+                    
+                    
+                    
+                    
+<!--                    <div class="col-sm d-flex">
+                        <div class="card card-body flex-fill">
+                            <button type="button" class="btn btn-link">Категория1</button>
+                        </div>
+                        <div class="col-sm d-flex">
+                        <div class="card card-body flex-fill">
+                            <button type="button" class="btn btn-link">Категория21</button>
                         </div>
                     </div>
-                </div>
+                </div>-->
+
             </div>
         </div>
 
-        <div class="row mt-4 mb-7">
-            <div class="col-md-11">
-                <div class="card">
-                    <div class="card-header">Тестовая страница</div>
+        <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-5 pb-2 mb-3 border-bottom">
+            <h1 class="h2">Последние объявления</h1>                
+        </div>
+        <!--        <div class="row mt-4 mb-7">
+                    <div class="col-md-11">
+                        <div class="card">
+                            <div class="card-header">Тестовая страница</div>
+        
+                            <div class="card-body">-->
 
+        <div class="row row-cols-1 row-cols-md-3 g-4">
+            <div class="col">
+                <div class="card h-100">
+                    <img src="#" class="card-img-top" alt="...">
                     <div class="card-body">
-
-                        <div class="row row-cols-1 row-cols-md-3 g-4">
-                            <div class="col">
-                                <div class="card h-100">
-                                    <img src="#" class="card-img-top" alt="...">
-                                    <div class="card-body">
-                                        <h5 class="card-title">Card title</h5>
-                                        <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col">
-                                <div class="card h-100">
-                                    <img src="#" class="card-img-top" alt="...">
-                                    <div class="card-body">
-                                        <h5 class="card-title">Card title</h5>
-                                        <p class="card-text">This is a short card.</p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col">
-                                <div class="card h-100">
-                                    <img src="#" class="card-img-top" alt="...">
-                                    <div class="card-body">
-                                        <h5 class="card-title">Card title</h5>
-                                        <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content.</p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col">
-                                <div class="card h-100">
-                                    <img src="#" class="card-img-top" alt="...">
-                                    <div class="card-body">
-                                        <h5 class="card-title">Card title</h5>
-                                        <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col">
-                                <div class="card h-100">
-                                    <img src="#" class="card-img-top" alt="...">
-                                    <div class="card-body">
-                                        <h5 class="card-title">Card title</h5>
-                                        <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col">
-                                <div class="card h-100">
-                                    <img src="#" class="card-img-top" alt="...">
-                                    <div class="card-body">
-                                        <h5 class="card-title">Card title</h5>
-                                        <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col">
-                                <div class="card h-100">
-                                    <img src="#" class="card-img-top" alt="...">
-                                    <div class="card-body">
-                                        <h5 class="card-title">Card title</h5>
-                                        <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col">
-                                <div class="card h-100">
-                                    <img src="#" class="card-img-top" alt="...">
-                                    <div class="card-body">
-                                        <h5 class="card-title">Card title</h5>
-                                        <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col">
-                                <div class="card h-100">
-                                    <img src="#" class="card-img-top" alt="...">
-                                    <div class="card-body">
-                                        <h5 class="card-title">Card title</h5>
-                                        <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col">
-                                <div class="card h-100">
-                                    <img src="#" class="card-img-top" alt="...">
-                                    <div class="card-body">
-                                        <h5 class="card-title">Card title</h5>
-                                        <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>                     
+                        <h5 class="card-title">Card title</h5>
+                        <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
                     </div>
-
                 </div>
             </div>
-        </div>
+            <div class="col">
+                <div class="card h-100">
+                    <img src="#" class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <h5 class="card-title">Card title</h5>
+                        <p class="card-text">This is a short card.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="card h-100">
+                    <img src="#" class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <h5 class="card-title">Card title</h5>
+                        <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="card h-100">
+                    <img src="#" class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <h5 class="card-title">Card title</h5>
+                        <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="card h-100">
+                    <img src="#" class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <h5 class="card-title">Card title</h5>
+                        <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="card h-100">
+                    <img src="#" class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <h5 class="card-title">Card title</h5>
+                        <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="card h-100">
+                    <img src="#" class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <h5 class="card-title">Card title</h5>
+                        <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="card h-100">
+                    <img src="#" class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <h5 class="card-title">Card title</h5>
+                        <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="card h-100">
+                    <img src="#" class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <h5 class="card-title">Card title</h5>
+                        <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="card h-100">
+                    <img src="#" class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <h5 class="card-title">Card title</h5>
+                        <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+                    </div>
+                </div>
+            </div>
+        </div>                     
+        <!--                    </div>
+        
+                        </div>
+                    </div>
+                </div>-->
 
     </div>
 
@@ -264,6 +176,44 @@ padding: 1rem;
 
 <script>
     export default {
-
+        data() {
+            return {
+                //id: 1,
+                loading: false,
+                cats: null,
+                error: null,
+                cat_title: 'Выберите категорию'
+            };
+        },
+        created() {
+            //this.$parent.cat_title = this.cat_title;
+            this.getCats(1);
+        },
+        methods: {
+            getCats: function (id) {
+              this.error = this.cats = null;
+              this.loading = true;
+              
+            this.$http({
+              url: '/get_cats/'+id,
+              method: "GET"
+            })
+            .then(response => {
+                this.cats = response.data.data;
+                this.loading = false;
+              })
+            .catch(error => {
+                console.log(error);
+                this.loading = false;
+                this.error = error.response.data.message || error.message;
+              });
+            },
+            handleGetCats(id) {
+                this.getCats(id);
+            },
+            onLoadCats: function (id) {
+                this.getCats(id);
+            },
+        }
     }
 </script>
