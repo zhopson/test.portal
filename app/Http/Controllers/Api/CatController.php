@@ -12,6 +12,7 @@ use App\Models\Categorie;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\CatResource;
+use Illuminate\Support\Facades\DB;
 //use Illuminate\Support\Facades\Artisan;
 
 class CatController extends Controller
@@ -20,6 +21,24 @@ class CatController extends Controller
     {
         return CatResource::collection(Categorie::where('parent_id', $id)->get());
     }
+    
+    public function getCatTree($id)
+    {
+        $cats = DB::select("
+            select t.id, t.name, t.parent_id from
+            (
+            WITH RECURSIVE sub_category(id, name, parent_id, level) AS (
+                    SELECT id, name, parent_id, 1 FROM categories WHERE id=? /* код узла */
+                    UNION ALL 
+                    SELECT c.id, c.name, c.parent_id, level+1
+                    FROM categories c, sub_category sc
+                    WHERE c.id = sc.parent_id  
+            )
+            SELECT id, name, parent_id, (SELECT max(level) FROM sub_category) - level AS distance FROM sub_category order by distance
+            ) t
+        ", [$id]);        
+        return CatResource::collection($cats);
+    }    
 //    public function store(Request $request)
 //    {
 //        $data = $request->validate([

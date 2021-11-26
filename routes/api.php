@@ -21,6 +21,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
     Route::namespace('Api')->group(function () {// server/api/
         Route::get('/get_cats/{id}', [CatController::class,'index']);
+        Route::get('/get_cats_tree/{id}', [CatController::class,'getCatTree']);
 //        Route::get('/users_all', 'UsersController@index_all')->middleware('isAdmin');
 //        Route::post('/users', 'UsersController@store')->middleware('isAdmin');
 //        Route::get('/users/{user}', 'UsersController@show')->middleware('isAdminOrSelf');

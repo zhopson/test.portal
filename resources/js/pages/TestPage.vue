@@ -24,6 +24,8 @@
                     <h1 class="h2">{{ cat_title }}</h1>                
                 </div>
 
+                <cbc-component v-bind:catsTree="catsTree" @call-get-cats-tree="handleGetCatsTree"></cbc-component>
+
                 <!--                <div class="card">
                                     <div class="card-header">Выберите категорию</div>
                 
@@ -181,6 +183,7 @@
                 //id: 1,
                 loading: false,
                 cats: null,
+                catsTree: null,
                 error: null,
                 cat_title: 'Выберите категорию'
             };
@@ -188,6 +191,8 @@
         created() {
             //this.$parent.cat_title = this.cat_title;
             this.getCats(1);
+            this.getCatsTree(1);
+            
         },
         methods: {
             getCats: function (id) {
@@ -208,12 +213,35 @@
                 this.error = error.response.data.message || error.message;
               });
             },
-            handleGetCats(id) {
+            getCatsTree: function (id) {
+              this.error = this.catsTree = null;
+              this.loading = true;
+              
+            this.$http({
+              url: '/get_cats_tree/'+id,
+              method: "GET"
+            })
+            .then(response => {
+                this.catsTree = response.data.data;
+                this.loading = false;
+              })
+            .catch(error => {
+                console.log(error);
+                this.loading = false;
+                this.error = error.response.data.message || error.message;
+              });
+            },            
+            handleGetCats(id, cat_name) {
                 this.getCats(id);
+                this.getCatsTree(id);
+                this.cat_title = cat_name;
             },
-            onLoadCats: function (id) {
-                this.getCats(id);
+            handleGetCatsTree(id, cat_name) {
+                this.handleGetCats(id, cat_name);      
             },
+//            onLoadCats: function (id) {
+//                this.getCats(id);
+//            },
         }
     }
 </script>
