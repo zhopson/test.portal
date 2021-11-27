@@ -1,10 +1,10 @@
 <template>
                 <nav aria-label="breadcrumb" v-if="catsTree">
                   <ol class="breadcrumb">
-                    <li class="breadcrumb-item" v-for="{id, name } in catsTree"><a href="onLoadCatsTree(id,name)">{{ name }}</a></li>
+                    <li class="breadcrumb-item" v-for="{id, name } in catsTree"><a href="#" @click.prevent="onLoadCatsTree(id,name)">{{ name }}</a></li>
 <!--                    <li class="breadcrumb-item active" aria-current="page">Data</li>-->
                   </ol>
-                </nav> 
+                </nav>
 
 </template>
 

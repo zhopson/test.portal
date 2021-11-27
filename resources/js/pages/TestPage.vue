@@ -12,43 +12,43 @@
         <div class="row mt-4">
 
             <div class="col-md-11">
-                
+
                 <div v-if="error" class="alert alert-danger" role="alert">
                     <p>A simple danger alert—check it out!</p>
                     <p>{{ error }}</p>
                 </div>
 
-                <div class="loading" v-if="loading">Loading...</div>                
-                
+                <div class="loading" v-if="loading">Loading...</div>
+
                 <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-                    <h1 class="h2">{{ cat_title }}</h1>                
+                    <h1 class="h2">{{ cat_title }}</h1>
                 </div>
 
-                <cbc-component v-bind:catsTree="catsTree" @call-get-cats-tree="handleGetCatsTree"></cbc-component>
+                <cbc-component v-bind:catsTree="catsTree" @call-get-cats-tree="handleGetCats"></cbc-component>
 
                 <!--                <div class="card">
                                     <div class="card-header">Выберите категорию</div>
-                
+
                                     <div class="card-body">
                                     </div>
                                 </div>-->
 
                 <div class="d-flex justify-content-end flex-wrap flex-md-nowrap align-items-center pt-3 pb-1 mb-3">
                     <button type="button" class="btn btn-info mb-4 ">Новая категория</button>
-                </div>                        
-                
+                </div>
+
                 <cats-component v-bind:cats="cats" @call-get-cats="handleGetCats"></cats-component>
-                
+
 <!--                <div class="row row-cols-1 row-cols-md-6 g-4" v-if="cats">
                     <div class="col-sm d-flex" v-for="{id, name } in cats">
                         <div class="card card-body flex-fill">
                             <button type="button" class="btn btn-link" @click.prevent="onLoadCats(id)">{{ name }}</button>
                         </div>
                     </div>     -->
-                    
-                    
-                    
-                    
+
+
+
+
 <!--                    <div class="col-sm d-flex">
                         <div class="card card-body flex-fill">
                             <button type="button" class="btn btn-link">Категория1</button>
@@ -64,13 +64,13 @@
         </div>
 
         <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-5 pb-2 mb-3 border-bottom">
-            <h1 class="h2">Последние объявления</h1>                
+            <h1 class="h2">Последние объявления</h1>
         </div>
         <!--        <div class="row mt-4 mb-7">
                     <div class="col-md-11">
                         <div class="card">
                             <div class="card-header">Тестовая страница</div>
-        
+
                             <div class="card-body">-->
 
         <div class="row row-cols-1 row-cols-md-3 g-4">
@@ -164,9 +164,9 @@
                     </div>
                 </div>
             </div>
-        </div>                     
+        </div>
         <!--                    </div>
-        
+
                         </div>
                     </div>
                 </div>-->
@@ -192,13 +192,13 @@
             //this.$parent.cat_title = this.cat_title;
             this.getCats(1);
             this.getCatsTree(1);
-            
+
         },
         methods: {
             getCats: function (id) {
               this.error = this.cats = null;
               this.loading = true;
-              
+
             this.$http({
               url: '/get_cats/'+id,
               method: "GET"
@@ -216,7 +216,7 @@
             getCatsTree: function (id) {
               this.error = this.catsTree = null;
               this.loading = true;
-              
+
             this.$http({
               url: '/get_cats_tree/'+id,
               method: "GET"
@@ -230,15 +230,15 @@
                 this.loading = false;
                 this.error = error.response.data.message || error.message;
               });
-            },            
+            },
             handleGetCats(id, cat_name) {
                 this.getCats(id);
                 this.getCatsTree(id);
                 this.cat_title = cat_name;
             },
-            handleGetCatsTree(id, cat_name) {
-                this.handleGetCats(id, cat_name);      
-            },
+            // handleGetCatsTree(id, cat_name) {
+            //     this.handleGetCats(id, cat_name);
+            // },
 //            onLoadCats: function (id) {
 //                this.getCats(id);
 //            },
