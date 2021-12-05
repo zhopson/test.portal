@@ -33,8 +33,12 @@
                                     </div>
                                 </div>-->
 
+                <div v-show="visibleNewCatBlock" class="input-group mb-3">
+                    <input type="text" v-model="category.name" class="form-control" placeholder="Наименование новой категории" aria-label="Наименование категории" aria-describedby="button-addon2">
+                    <button v-on:click="SaveNewCat()" class="btn btn-outline-secondary" type="button" id="button-addon2">Добавить</button>
+                </div>
                 <div class="d-flex justify-content-end flex-wrap flex-md-nowrap align-items-center pt-3 pb-1 mb-3">
-                    <button type="button" class="btn btn-info mb-4 ">Новая категория</button>
+                    <button v-on:click="visibleNewCatBlock=!visibleNewCatBlock" type="button" class="btn btn-info mb-4 ">{{visibleNewCatBlock?'Отмена':'Новая категория'}}</button>
                 </div>
 
                 <cats-component v-bind:cats="cats" @call-get-cats="handleGetCats"></cats-component>
@@ -185,7 +189,12 @@
                 cats: null,
                 catsTree: null,
                 error: null,
-                cat_title: 'Выберите категорию'
+                cat_title: 'Выберите категорию',
+                visibleNewCatBlock: false,
+                category: {
+                    name: '',
+                    parent_id: 0,
+                }
             };
         },
         created() {
@@ -235,7 +244,34 @@
                 this.getCats(id);
                 this.getCatsTree(id);
                 this.cat_title = cat_name;
+                this.category.parent_id = id;
             },
+            SaveNewCat() {
+//                alert("name = "+this.category.name+", parent id = "+this.category.parent_id);
+//                this.saving = true
+                this.message = false
+                    this.$http({
+                        url: '/save_cat',
+                        method: 'POST',
+                        params: this.category
+                    })
+                    .then((response) => {
+                        //window.location.reload();
+                        this.getCats(this.category.parent_id);
+                        this.getCatsTree(this.category.parent_id);
+
+                        this.category.name = "";
+                        this.visibleNewCatBlock = false;
+                        //this.$forceUpdate();
+                        //this.$router.push({ name: 'users.edit', params: { id: response.data.data.id } });
+                    })
+                    .catch((e) => {
+                        this.message = e.response.data.message || 'There was an issue creating the category.';
+                    })
+//                    .then(() => this.saving = false)
+            }
+
+
             // handleGetCatsTree(id, cat_name) {
             //     this.handleGetCats(id, cat_name);
             // },

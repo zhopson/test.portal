@@ -2316,16 +2316,41 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({//      data() {
-  //          return {
-  //              card_title: ''
-  //        };
-  //      },
-  //        watch: {
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  data: function data() {
+    return {
+      cats: null
+    };
+  },
+  created: function created() {
+    this.getCats(1);
+  },
+  methods: {
+    getCats: function getCats(id) {
+      var _this = this;
+
+      //this.error = this.cats = null;
+      //this.loading = true;
+      this.$http({
+        url: '/get_cats/' + id,
+        method: "GET"
+      }).then(function (response) {
+        _this.cats = response.data.data; //this.loading = false;
+      })["catch"](function (error) {
+        console.log(error); //this.loading = false;
+        //this.error = error.response.data.message || error.message;
+      });
+    },
+    onLoadCats: function onLoadCats(id, name) {//console.log('Component executed.')
+      //this.$emit('call-get-cats',id, name);
+      //alert(id);
+    }
+  } //        watch: {
   //            $route() {
   //                $("#navbarCollapse").collapse("hide");
   //            },
   //        },
+
 });
 
 /***/ }),
@@ -2577,6 +2602,10 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
@@ -2585,7 +2614,12 @@ __webpack_require__.r(__webpack_exports__);
       cats: null,
       catsTree: null,
       error: null,
-      cat_title: 'Выберите категорию'
+      cat_title: 'Выберите категорию',
+      visibleNewCatBlock: false,
+      category: {
+        name: '',
+        parent_id: 0
+      }
     };
   },
   created: function created() {
@@ -2632,6 +2666,30 @@ __webpack_require__.r(__webpack_exports__);
       this.getCats(id);
       this.getCatsTree(id);
       this.cat_title = cat_name;
+      this.category.parent_id = id;
+    },
+    SaveNewCat: function SaveNewCat() {
+      var _this3 = this;
+
+      //                alert("name = "+this.category.name+", parent id = "+this.category.parent_id);
+      //                this.saving = true
+      this.message = false;
+      this.$http({
+        url: '/save_cat',
+        method: 'POST',
+        params: this.category
+      }).then(function (response) {
+        //window.location.reload();
+        _this3.getCats(_this3.category.parent_id);
+
+        _this3.getCatsTree(_this3.category.parent_id);
+
+        _this3.category.name = "";
+        _this3.visibleNewCatBlock = false; //this.$forceUpdate();
+        //this.$router.push({ name: 'users.edit', params: { id: response.data.data.id } });
+      })["catch"](function (e) {
+        _this3.message = e.response.data.message || 'There was an issue creating the category.';
+      }); //                    .then(() => this.saving = false)
     } // handleGetCatsTree(id, cat_name) {
     //     this.handleGetCats(id, cat_name);
     // },
@@ -38793,7 +38851,52 @@ var render = function () {
     _vm._v(" "),
     _c("div", { staticClass: "container-fluid" }, [
       _c("div", { staticClass: "row" }, [
-        _vm._m(1),
+        _c(
+          "nav",
+          {
+            staticClass:
+              "col-md-3 col-lg-2 d-md-block bg-light sidebar collapse",
+            attrs: { id: "sidebarMenu" },
+          },
+          [
+            _c("div", { staticClass: "position-sticky pt-3" }, [
+              _vm.cats
+                ? _c(
+                    "ul",
+                    { staticClass: "nav flex-column" },
+                    _vm._l(_vm.cats, function (ref) {
+                      var id = ref.id
+                      var name = ref.name
+                      return _c("li", { staticClass: "nav-item" }, [
+                        _c(
+                          "a",
+                          {
+                            staticClass: "nav-link",
+                            attrs: { "aria-current": "page", href: "#" },
+                            on: {
+                              click: function ($event) {
+                                $event.preventDefault()
+                                return _vm.onLoadCats(id, name)
+                              },
+                            },
+                          },
+                          [
+                            _c("span", { attrs: { "data-feather": "home" } }),
+                            _vm._v(
+                              "\n                                    " +
+                                _vm._s(name) +
+                                "\n                                "
+                            ),
+                          ]
+                        ),
+                      ])
+                    }),
+                    0
+                  )
+                : _vm._e(),
+            ]),
+          ]
+        ),
         _vm._v(" "),
         _c(
           "main",
@@ -38856,80 +38959,25 @@ var staticRenderFns = [
                     "a",
                     {
                       staticClass: "nav-link active",
-                      attrs: { "aria-current": "page", href: "#" },
+                      attrs: { "aria-current": "page", href: "/" },
                     },
-                    [_vm._v("Home")]
+                    [_vm._v("Домой")]
                   ),
                 ]),
                 _vm._v(" "),
                 _c("li", { staticClass: "nav-item" }, [
-                  _c("a", { staticClass: "nav-link", attrs: { href: "#" } }, [
-                    _vm._v("Features"),
-                  ]),
-                ]),
-                _vm._v(" "),
-                _c("li", { staticClass: "nav-item" }, [
-                  _c("a", { staticClass: "nav-link", attrs: { href: "#" } }, [
-                    _vm._v("Pricing"),
-                  ]),
-                ]),
-                _vm._v(" "),
-                _c("li", { staticClass: "nav-item dropdown" }, [
                   _c(
                     "a",
-                    {
-                      staticClass: "nav-link dropdown-toggle",
-                      attrs: {
-                        href: "#",
-                        id: "navbarDropdownMenuLink",
-                        role: "button",
-                        "data-bs-toggle": "dropdown",
-                        "aria-expanded": "false",
-                      },
-                    },
-                    [_vm._v("\n            Dropdown link\n          ")]
+                    { staticClass: "nav-link", attrs: { href: "/testpage" } },
+                    [_vm._v("Объявления")]
                   ),
-                  _vm._v(" "),
+                ]),
+                _vm._v(" "),
+                _c("li", { staticClass: "nav-item" }, [
                   _c(
-                    "ul",
-                    {
-                      staticClass: "dropdown-menu",
-                      attrs: { "aria-labelledby": "navbarDropdownMenuLink" },
-                    },
-                    [
-                      _c("li", [
-                        _c(
-                          "a",
-                          {
-                            staticClass: "dropdown-item",
-                            attrs: { href: "#" },
-                          },
-                          [_vm._v("Action")]
-                        ),
-                      ]),
-                      _vm._v(" "),
-                      _c("li", [
-                        _c(
-                          "a",
-                          {
-                            staticClass: "dropdown-item",
-                            attrs: { href: "#" },
-                          },
-                          [_vm._v("Another action")]
-                        ),
-                      ]),
-                      _vm._v(" "),
-                      _c("li", [
-                        _c(
-                          "a",
-                          {
-                            staticClass: "dropdown-item",
-                            attrs: { href: "#" },
-                          },
-                          [_vm._v("Something else here")]
-                        ),
-                      ]),
-                    ]
+                    "a",
+                    { staticClass: "nav-link", attrs: { href: "/about" } },
+                    [_vm._v("О нас")]
                   ),
                 ]),
               ]),
@@ -39044,70 +39092,6 @@ var staticRenderFns = [
                   ]),
                 ]
               ),
-            ]),
-          ]),
-        ]),
-      ]
-    )
-  },
-  function () {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c(
-      "nav",
-      {
-        staticClass: "col-md-3 col-lg-2 d-md-block bg-light sidebar collapse",
-        attrs: { id: "sidebarMenu" },
-      },
-      [
-        _c("div", { staticClass: "position-sticky pt-3" }, [
-          _c("ul", { staticClass: "nav flex-column" }, [
-            _c("li", { staticClass: "nav-item" }, [
-              _c(
-                "a",
-                {
-                  staticClass: "nav-link",
-                  attrs: { "aria-current": "page", href: "/" },
-                },
-                [
-                  _c("span", { attrs: { "data-feather": "home" } }),
-                  _vm._v(
-                    "\n                                    Домой\n                                "
-                  ),
-                ]
-              ),
-            ]),
-            _vm._v(" "),
-            _c("li", { staticClass: "nav-item" }, [
-              _c(
-                "a",
-                { staticClass: "nav-link", attrs: { href: "/testpage" } },
-                [
-                  _c("span", { attrs: { "data-feather": "file" } }),
-                  _vm._v(
-                    "\n                                    Тестовая страница\n                                "
-                  ),
-                ]
-              ),
-            ]),
-            _vm._v(" "),
-            _c("li", { staticClass: "nav-item" }, [
-              _c("a", { staticClass: "nav-link", attrs: { href: "/about" } }, [
-                _c("span", { attrs: { "data-feather": "users" } }),
-                _vm._v(
-                  "\n                                    О нас\n                                "
-                ),
-              ]),
-            ]),
-            _vm._v(" "),
-            _c("li", { staticClass: "nav-item" }, [
-              _c("a", { staticClass: "nav-link", attrs: { href: "#" } }, [
-                _c("span", { attrs: { "data-feather": "shopping-cart" } }),
-                _vm._v(
-                  "\n                                    Customers\n                                "
-                ),
-              ]),
             ]),
           ]),
         ]),
@@ -39257,7 +39241,91 @@ var render = function () {
             on: { "call-get-cats-tree": _vm.handleGetCats },
           }),
           _vm._v(" "),
-          _vm._m(0),
+          _c(
+            "div",
+            {
+              directives: [
+                {
+                  name: "show",
+                  rawName: "v-show",
+                  value: _vm.visibleNewCatBlock,
+                  expression: "visibleNewCatBlock",
+                },
+              ],
+              staticClass: "input-group mb-3",
+            },
+            [
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.category.name,
+                    expression: "category.name",
+                  },
+                ],
+                staticClass: "form-control",
+                attrs: {
+                  type: "text",
+                  placeholder: "Наименование новой категории",
+                  "aria-label": "Наименование категории",
+                  "aria-describedby": "button-addon2",
+                },
+                domProps: { value: _vm.category.name },
+                on: {
+                  input: function ($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.$set(_vm.category, "name", $event.target.value)
+                  },
+                },
+              }),
+              _vm._v(" "),
+              _c(
+                "button",
+                {
+                  staticClass: "btn btn-outline-secondary",
+                  attrs: { type: "button", id: "button-addon2" },
+                  on: {
+                    click: function ($event) {
+                      return _vm.SaveNewCat()
+                    },
+                  },
+                },
+                [_vm._v("Добавить")]
+              ),
+            ]
+          ),
+          _vm._v(" "),
+          _c(
+            "div",
+            {
+              staticClass:
+                "d-flex justify-content-end flex-wrap flex-md-nowrap align-items-center pt-3 pb-1 mb-3",
+            },
+            [
+              _c(
+                "button",
+                {
+                  staticClass: "btn btn-info mb-4 ",
+                  attrs: { type: "button" },
+                  on: {
+                    click: function ($event) {
+                      _vm.visibleNewCatBlock = !_vm.visibleNewCatBlock
+                    },
+                  },
+                },
+                [
+                  _vm._v(
+                    _vm._s(
+                      _vm.visibleNewCatBlock ? "Отмена" : "Новая категория"
+                    )
+                  ),
+                ]
+              ),
+            ]
+          ),
           _vm._v(" "),
           _c("cats-component", {
             attrs: { cats: _vm.cats },
@@ -39268,31 +39336,12 @@ var render = function () {
       ),
     ]),
     _vm._v(" "),
-    _vm._m(1),
+    _vm._m(0),
     _vm._v(" "),
-    _vm._m(2),
+    _vm._m(1),
   ])
 }
 var staticRenderFns = [
-  function () {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c(
-      "div",
-      {
-        staticClass:
-          "d-flex justify-content-end flex-wrap flex-md-nowrap align-items-center pt-3 pb-1 mb-3",
-      },
-      [
-        _c(
-          "button",
-          { staticClass: "btn btn-info mb-4 ", attrs: { type: "button" } },
-          [_vm._v("Новая категория")]
-        ),
-      ]
-    )
-  },
   function () {
     var _vm = this
     var _h = _vm.$createElement

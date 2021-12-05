@@ -9,15 +9,15 @@
     <div class="collapse navbar-collapse" id="navbarNavDropdown">
       <ul class="navbar-nav">
         <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="#">Home</a>
+          <a class="nav-link active" aria-current="page" href="/">Домой</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">Features</a>
+          <a class="nav-link" href="/testpage">Объявления</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">Pricing</a>
+          <a class="nav-link" href="/about">О нас</a>
         </li>
-        <li class="nav-item dropdown">
+        <!-- <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
             Dropdown link
           </a>
@@ -26,16 +26,16 @@
             <li><a class="dropdown-item" href="#">Another action</a></li>
             <li><a class="dropdown-item" href="#">Something else here</a></li>
           </ul>
-        </li>
+        </li> -->
       </ul>
     </div>
     <form class="d-flex mb-2 mt-2">
       <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
       <button class="btn btn-outline-success me-5" type="submit">Search</button>
-      
+
         <button type="button" class="btn btn-outline-light md-2 me-2">Войти</button>
-        <button type="button" class="btn btn-warning md-2 me-4">Регистрация</button>      
-                            
+        <button type="button" class="btn btn-warning md-2 me-4">Регистрация</button>
+
         <div class="dropdown mt-2 me-4">
             <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
                 <img src="https://github.com/mdo.png" alt="" width="32" height="32" class="rounded-circle me-2">
@@ -48,23 +48,23 @@
                 <li><hr class="dropdown-divider"></li>
                 <li><a class="dropdown-item" href="#">Sign out</a></li>
             </ul>
-        </div>    
-      
-    </form>      
+        </div>
+
+    </form>
   </div>
 </header>
         <div class="container-fluid">
             <div class="row">
                 <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
                     <div class="position-sticky pt-3">
-                        <ul class="nav flex-column">
-                            <li class="nav-item">
-                                <a class="nav-link" aria-current="page" href="/">
+                        <ul class="nav flex-column" v-if="cats">
+                            <li class="nav-item" v-for="{ id, name } in cats">
+                                <a class="nav-link" aria-current="page" href="#" @click.prevent="onLoadCats(id,name)">
                                     <span data-feather="home"></span>
-                                    Домой
+                                    {{ name }}
                                 </a>
                             </li>
-                            <li class="nav-item">
+                            <!--<li class="nav-item">
                                 <a class="nav-link" href="/testpage">
                                     <span data-feather="file"></span>
                                     Тестовая страница
@@ -82,7 +82,7 @@
                                     Customers
                                 </a>
                             </li>
-                            <!--          <li class="nav-item">
+                                      <li class="nav-item">
                                         <a class="nav-link" href="#">
                                           <span data-feather="bar-chart-2"></span>
                                           Reports
@@ -135,16 +135,44 @@
                 </main>
             </div>
         </div>
-    </div>        
+    </div>
 </template>
 
 <script>
     export default {
-//      data() {
-//          return {
-//              card_title: ''
-//        };
-//      },
+     data() {
+         return {
+             cats: null,
+       };
+     },
+        created() {
+            this.getCats(1);
+        },
+        methods: {
+            getCats: function (id) {
+              //this.error = this.cats = null;
+              //this.loading = true;
+
+            this.$http({
+              url: '/get_cats/'+id,
+              method: "GET"
+            })
+            .then(response => {
+                this.cats = response.data.data;
+                //this.loading = false;
+              })
+            .catch(error => {
+                console.log(error);
+                //this.loading = false;
+                //this.error = error.response.data.message || error.message;
+              });
+            },
+            onLoadCats(id,name) {
+                //console.log('Component executed.')
+                //this.$emit('call-get-cats',id, name);
+                //alert(id);
+            },
+        }
 //        watch: {
 //            $route() {
 //                $("#navbarCollapse").collapse("hide");

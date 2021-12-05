@@ -1,6 +1,6 @@
 <?php
 
-/* 
+/*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
@@ -21,7 +21,7 @@ class CatController extends Controller
     {
         return CatResource::collection(Categorie::where('parent_id', $id)->get());
     }
-    
+
     public function getCatTree($id)
     {
         $cats = DB::select("
@@ -29,30 +29,28 @@ class CatController extends Controller
             (
             WITH RECURSIVE sub_category(id, name, parent_id, level) AS (
                     SELECT id, name, parent_id, 1 FROM categories WHERE id=? /* код узла */
-                    UNION ALL 
+                    UNION ALL
                     SELECT c.id, c.name, c.parent_id, level+1
                     FROM categories c, sub_category sc
-                    WHERE c.id = sc.parent_id  
+                    WHERE c.id = sc.parent_id
             )
             SELECT id, name, parent_id, (SELECT max(level) FROM sub_category) - level AS distance FROM sub_category order by distance
             ) t
-        ", [$id]);        
+        ", [$id]);
         return CatResource::collection($cats);
-    }    
-//    public function store(Request $request)
-//    {
-//        $data = $request->validate([
-//            'name' => 'required',
-//            'email' => 'required|unique:users',
-//            'password' => 'required|min:8',
-//        ]);
-//
-//        return new UserResource(User::create([
-//            'name' => $data['name'],
-//            'email' => $data['email'],
-//            'password' => bcrypt($data['password']),
-//        ]));
-//    }
+    }
+   public function store(Request $request)
+   {
+       $data = $request->validate([
+           'name' => 'required',
+           'parent_id' => 'numeric|required',
+       ]);
+
+       return new CatResource(Categorie::create([
+           'name' => $data['name'],
+           'parent_id' => $data['parent_id'],
+       ]));
+   }
 //    public function show(User $user)
 //    {
 //        return new UserResource($user);
@@ -80,5 +78,5 @@ class CatController extends Controller
 ////        return $this->sendResponse("", 'Database cleared and filled faker data.');
 //        return response(null, 204);
 //    }
-    
+
 }

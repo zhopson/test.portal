@@ -4,7 +4,7 @@
                         <div class="card card-body flex-fill">
                             <button type="button" class="btn btn-link" v-on:click="onLoadCats(id, name)">{{ name }}</button>
                         </div>
-                    </div>     
+                    </div>
     </div>
 </template>
 
