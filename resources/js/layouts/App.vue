@@ -59,7 +59,8 @@
                     <div class="position-sticky pt-3">
                         <ul class="nav flex-column" v-if="cats">
                             <li class="nav-item" v-for="{ id, name } in cats">
-                                <a class="nav-link" aria-current="page" href="#" @click.prevent="onLoadCats(id,name)">
+                                <a class="nav-link" aria-current="page" :href="'/testpage/'+id">
+                                    <!-- @click.prevent="onLoadCats(id)" -->
                                     <span data-feather="home"></span>
                                     {{ name }}
                                 </a>
@@ -167,10 +168,11 @@
                 //this.error = error.response.data.message || error.message;
               });
             },
-            onLoadCats(id,name) {
+            onLoadCats(id) {
                 //console.log('Component executed.')
                 //this.$emit('call-get-cats',id, name);
-                //alert(id);
+//                alert('cat_id = ' + cat_id);
+                this.$router.push( { name:'testpage', params: {cat_id: id} } );
             },
         }
 //        watch: {

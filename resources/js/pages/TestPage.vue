@@ -184,7 +184,7 @@
     export default {
         data() {
             return {
-                //id: 1,
+                cat_id: 1,
                 loading: false,
                 cats: null,
                 catsTree: null,
@@ -198,10 +198,22 @@
             };
         },
         created() {
-            //this.$parent.cat_title = this.cat_title;
-            this.getCats(1);
-            this.getCatsTree(1);
+            //alert('cat_id from router = ' + this.$route.params.cat_id);
+            //this.cat_id = this.$route.params.cat_id;
+            //this.cat_title = this.$route.params.cat_title;
 
+            //alert('this.cat_id = ' + this.cat_id);
+            if (this.$route.params.cat_id != undefined) { this.cat_id = this.$route.params.cat_id; }
+
+            //this.$parent.cat_title = this.cat_title;
+            this.getCats(this.cat_id);
+            this.getCatsTree(this.cat_id);
+
+        },
+        computed: {
+            catsTreeLastItem() {
+                return this.catsTree[this.catsTree.length -1].name;
+            }
         },
         methods: {
             getCats: function (id) {
@@ -232,6 +244,8 @@
             })
             .then(response => {
                 this.catsTree = response.data.data;
+                // this.cat_title = this.catsTree[this.catsTree.length -1].name;
+                this.cat_title = this.catsTreeLastItem;
                 this.loading = false;
               })
             .catch(error => {

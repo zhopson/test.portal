@@ -2316,6 +2316,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
@@ -2341,9 +2342,16 @@ __webpack_require__.r(__webpack_exports__);
         //this.error = error.response.data.message || error.message;
       });
     },
-    onLoadCats: function onLoadCats(id, name) {//console.log('Component executed.')
+    onLoadCats: function onLoadCats(id) {
+      //console.log('Component executed.')
       //this.$emit('call-get-cats',id, name);
-      //alert(id);
+      //                alert('cat_id = ' + cat_id);
+      this.$router.push({
+        name: 'testpage',
+        params: {
+          cat_id: id
+        }
+      });
     }
   } //        watch: {
   //            $route() {
@@ -2609,7 +2617,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
-      //id: 1,
+      cat_id: 1,
       loading: false,
       cats: null,
       catsTree: null,
@@ -2623,9 +2631,22 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   created: function created() {
-    //this.$parent.cat_title = this.cat_title;
-    this.getCats(1);
-    this.getCatsTree(1);
+    //alert('cat_id from router = ' + this.$route.params.cat_id);
+    //this.cat_id = this.$route.params.cat_id;
+    //this.cat_title = this.$route.params.cat_title;
+    //alert('this.cat_id = ' + this.cat_id);
+    if (this.$route.params.cat_id != undefined) {
+      this.cat_id = this.$route.params.cat_id;
+    } //this.$parent.cat_title = this.cat_title;
+
+
+    this.getCats(this.cat_id);
+    this.getCatsTree(this.cat_id);
+  },
+  computed: {
+    catsTreeLastItem: function catsTreeLastItem() {
+      return this.catsTree[this.catsTree.length - 1].name;
+    }
   },
   methods: {
     getCats: function getCats(id) {
@@ -2654,7 +2675,9 @@ __webpack_require__.r(__webpack_exports__);
         url: '/get_cats_tree/' + id,
         method: "GET"
       }).then(function (response) {
-        _this2.catsTree = response.data.data;
+        _this2.catsTree = response.data.data; // this.cat_title = this.catsTree[this.catsTree.length -1].name;
+
+        _this2.cat_title = _this2.catsTreeLastItem;
         _this2.loading = false;
       })["catch"](function (error) {
         console.log(error);
@@ -2818,7 +2841,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _pages_Home_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./pages/Home.vue */ "./resources/js/pages/Home.vue");
 /* harmony import */ var _pages_About_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./pages/About.vue */ "./resources/js/pages/About.vue");
 /* harmony import */ var _pages_TestPage_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./pages/TestPage.vue */ "./resources/js/pages/TestPage.vue");
-/* 
+/*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
@@ -2837,7 +2860,7 @@ var router = new vue_router__WEBPACK_IMPORTED_MODULE_4__["default"]({
     name: 'home',
     component: _pages_Home_vue__WEBPACK_IMPORTED_MODULE_0__["default"]
   }, {
-    path: '/testpage',
+    path: '/testpage/:cat_id?',
     name: 'testpage',
     component: _pages_TestPage_vue__WEBPACK_IMPORTED_MODULE_2__["default"]
   }, {
@@ -38872,12 +38895,9 @@ var render = function () {
                           "a",
                           {
                             staticClass: "nav-link",
-                            attrs: { "aria-current": "page", href: "#" },
-                            on: {
-                              click: function ($event) {
-                                $event.preventDefault()
-                                return _vm.onLoadCats(id, name)
-                              },
+                            attrs: {
+                              "aria-current": "page",
+                              href: "/testpage/" + id,
                             },
                           },
                           [
