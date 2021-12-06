@@ -29,6 +29,7 @@ Axios.defaults.baseURL = `${process.env.MIX_APP_URL}/api`;
 
 Vue.component('example-component', require('./components/ExampleComponent.vue').default);
 Vue.component('cats-component', require('./components/CatComponent.vue').default);
+Vue.component('cbc-component', require('./components/BrcComponent.vue').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
