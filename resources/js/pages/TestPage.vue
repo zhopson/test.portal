@@ -246,6 +246,7 @@
                 this.catsTree = response.data.data;
                 // this.cat_title = this.catsTree[this.catsTree.length -1].name;
                 this.cat_title = this.catsTreeLastItem;
+                this.category.parent_id = id;
                 this.loading = false;
               })
             .catch(error => {
@@ -263,7 +264,7 @@
             SaveNewCat() {
 //                alert("name = "+this.category.name+", parent id = "+this.category.parent_id);
 //                this.saving = true
-                this.message = false
+                this.message = false;
                     this.$http({
                         url: '/save_cat',
                         method: 'POST',

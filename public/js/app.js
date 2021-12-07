@@ -2678,6 +2678,7 @@ __webpack_require__.r(__webpack_exports__);
         _this2.catsTree = response.data.data; // this.cat_title = this.catsTree[this.catsTree.length -1].name;
 
         _this2.cat_title = _this2.catsTreeLastItem;
+        _this2.category.parent_id = id;
         _this2.loading = false;
       })["catch"](function (error) {
         console.log(error);
