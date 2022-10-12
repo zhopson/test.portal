@@ -1,0 +1,48 @@
+# version docker-compose
+version: '3.1'
+services:
+    nginx:
+        image: nginx:latest
+        # ports
+        ports:
+            - "80:80"
+            - "443:443"
+        # mount dirs, left - host machine, right - in container
+        volumes:
+            - ./conf:/etc/nginx/conf.d
+            - ./application:/var/www
+            - ./logs:/var/log/nginx
+        # nginx must call php
+        links:
+            - php
+    php:
+        image: laravel.backend
+        # u nas svoj obraz dlya PHP, ukazyvaem put' k nemu i govorim chto ego nado sobrat'
+        build: ./images/php
+
+        # etot obraz budet obshchat'sya s mysql
+        links:
+            - dbpostgresql
+        # montiruem direktoriyu s proektami
+        volumes:
+            - ./application:/var/www
+            - ./init:/tmp
+
+#        command: ["bash", "-c", "composer update && php artisan migrate:refresh && /tmp/init-db.sh && php-fpm"]
+        command: ["bash", "-c", "composer update && php-fpm"]
+
+    npm.watch:
+        image: laravel.backend
+        volumes:
+            - ./application:/var/www
+        command: ["bash", "-c", "npm run watch"]
+
+    dbpostgresql:
+#        image: andreechka/postgres_my:ver13.0_base_inside
+        image: postgres:14
+        ports:
+            - "5433:5432"
+        env_file:
+            - env.list
+        volumes:
+            - ./data:/var/lib/postgresql/data/pgdata
